@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace TimeTrackingLib
 {
     public interface ITimeTracking : IDisposable
     {
-        IEnumerable<ITimeAccount> Accounts { get; }
+        ITimeAccounts Accounts { get; }
 
         ITrackingSession CurrentSession { get; }
 
         event Action TimeAccountListChanged;
 
-        void AddAccount(string name);
+        ITimeAccount AddAccount(string name);
 
-        bool SwitchAccount(ITimeAccount account);
+        bool Switch(ITimeAccount account);
     }
 }

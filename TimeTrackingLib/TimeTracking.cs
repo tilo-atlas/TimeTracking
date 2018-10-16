@@ -1,45 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace TimeTrackingLib
 {
     public class TimeTracking : ITimeTracking
     {
-        public IEnumerable<ITimeAccount> Accounts => TimeAccounts.Store.Active;
+        private IAppData _data;
+
+        public ITimeAccounts Accounts { get => _data.Accounts; }
 
         public event Action TimeAccountListChanged;
 
         public ITrackingSession CurrentSession { get; private set; }
 
+        public TimeTracking() : this(null) { }
+
         public TimeTracking(string dataPath)
         {
-            CurrentSession = new TrackingSession(Accounts.First() /* Break */);
+            _data = new AppData(dataPath);
+            CurrentSession = new TrackingSession(_data.Accounts.Break);
         }
 
-        public bool SwitchAccount(ITimeAccount account)
+        public bool Switch(ITimeAccount account)
         {
             if (account.Equals(CurrentSession.Account))
             {
                 return false; // if same account then continue with same session
             }
-
-            TrackingSessions.Store.Add(CurrentSession);
+            _data.AddSession(CurrentSession);
             CurrentSession = new TrackingSession(account);
             return true;
         }
 
-        public void AddAccount(string name)
+        public ITimeAccount AddAccount(string name)
         {
-            if (!string.IsNullOrEmpty(name) && TimeAccounts.Store.Add(name))
+            ITimeAccount result = null;
+            if (!string.IsNullOrEmpty(name))
             {
-                TimeAccountListChanged?.Invoke();
+                result = _data.AddAccount(name);
+                if (result != null)
+                    TimeAccountListChanged?.Invoke();
             }
+            return result;
         }
 
         public void Dispose()
         {
-            TrackingSessions.Store.Add(CurrentSession);
+            _data.AddSession(CurrentSession);
             CurrentSession = null;
         }
     }

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace TimeTrackingLib
 {
-    public interface ITimeAccounts
+    internal interface IAppData
     {
-        ITimeAccount Break { get; }
+        TimeAccounts Accounts { get; }
 
-        IEnumerable<ITimeAccount> Active { get; }
+        void AddSession(ITrackingSession session);
+
+        ITimeAccount AddAccount(string name);
     }
 }

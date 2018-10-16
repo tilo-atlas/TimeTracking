@@ -21,7 +21,7 @@ namespace TimeTrackingUI_WinForms
             _timeTracking = new TimeTracking(TTP);
             _timeTracking.TimeAccountListChanged += SetupTimeAccountButtons;
             SetupTimeAccountButtons();
-            _timeTracking.SwitchAccount(_activeButton.Tag as ITimeAccount);
+            _timeTracking.Switch(_activeButton.Tag as ITimeAccount);
             timerSession.Start();
         }
 
@@ -34,7 +34,7 @@ namespace TimeTrackingUI_WinForms
 
             int buttonCount = 1;
 
-            foreach (ITimeAccount account in _timeTracking.Accounts)
+            foreach (ITimeAccount account in _timeTracking.Accounts.Active)
             {
                 CheckBox button = CreateButton(buttonCount, $"{buttonCount}\n{account.Name}");
                 button.Tag = account;
@@ -77,7 +77,7 @@ namespace TimeTrackingUI_WinForms
             }
 
             ITimeAccount account = button.Tag as ITimeAccount;
-            if (_timeTracking.SwitchAccount(account))
+            if (_timeTracking.Switch(account))
             {
                 _activeButton.Checked = false;
                 _activeButton = button;

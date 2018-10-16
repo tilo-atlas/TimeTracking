@@ -13,29 +13,22 @@ namespace TimeTrackingLib
         public Guid ID { get; } = Guid.NewGuid();
 
         [JsonIgnore]
-        public ITimeAccount Account
-        {
-            get
-            {
-                return TimeAccounts.Store.GetByID(_accountID);
-            }
-        }
+        public ITimeAccount Account { get; internal set; }
 
         [JsonProperty]
-        private readonly Guid _accountID;
+        internal readonly Guid _accountID;
 
         public IList<string> Comments { get; private set; } = new List<string>();
 
         [JsonIgnore]
         public TimeSpan Duration => (End.HasValue ? End.Value : DateTime.Now) - Start;
 
-        public TrackingSession() { }
+        internal TrackingSession(ITimeAccount account) : this(account, DateTime.Now) { }
 
-        public TrackingSession(ITimeAccount account) : this(account, DateTime.Now) { }
-
-        public TrackingSession(ITimeAccount account, DateTime start)
+        internal TrackingSession(ITimeAccount account, DateTime start)
         {
             Start = start;
+            Account = account;
             _accountID = account.ID;
         }
     }

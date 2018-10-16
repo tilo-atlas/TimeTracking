@@ -45,22 +45,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\BreakAccount.cs" />
-    <Compile Include="_Interfaces\IPeriod.cs" />
-    <Compile Include="_Interfaces\ITimeAccount.cs" />
+    <Compile Include="DataStore\AppData.cs" />
+    <Compile Include="DataStore\DataStore.cs" />
     <Compile Include="_Interfaces\ITimeAccounts.cs" />
+    <Compile Include="_Interfaces\IAppData.cs" />
+    <Compile Include="_Interfaces\IDataStore.cs" />
+    <Compile Include="_Interfaces\ITimeAccount.cs" />
     <Compile Include="_Interfaces\ITimeTracking.cs" />
     <Compile Include="_Interfaces\ITrackingSession.cs" />
-    <Compile Include="_Interfaces\ITrackingSessions.cs" />
-    <Compile Include="_Interfaces\ITrackingSessionStore.cs" />
     <Compile Include="Account\TimeAccount.cs" />
     <Compile Include="Account\TimeAccounts.cs" />
     <Compile Include="TimeTracking.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\TrackingSession.cs" />
-    <Compile Include="Session\TrackingSessions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
